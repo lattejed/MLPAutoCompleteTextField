@@ -17,6 +17,7 @@
 #import "NSString+Levenshtein.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define BROKEN 1
 
 static NSString *kSortInputStringKey = @"sortInputString";
 static NSString *kSortEditDistancesKey = @"editDistances";
@@ -436,8 +437,8 @@ withAutoCompleteString:(NSString *)string
         
         [self.superview bringSubviewToFront:self];
 #if BROKEN
-        UIView *rootView = [self.window.subviews objectAtIndex:0];
-        [rootView insertSubview:self.autoCompleteTableView
+        //UIView *rootView = [self.window.subviews objectAtIndex:0];
+        [_rootView insertSubview:self.autoCompleteTableView
                    belowSubview:self];
 #else
         [self.superview insertSubview:self.autoCompleteTableView
@@ -768,12 +769,12 @@ withAutoCompleteString:(NSString *)string
     //       more normal use cases because of UILayoutContainerView
     CGRect newTableViewFrame             = [self autoCompleteTableViewFrameForTextField:textField];
     
-    UIView *rootView                     = [textField.window.subviews objectAtIndex:0];
-    CGRect textFieldFrameInContainerView = [rootView convertRect:textField.bounds
+    //UIView *rootView                     = [textField.window.subviews objectAtIndex:0];
+    CGRect textFieldFrameInContainerView = [_rootView convertRect:textField.bounds
                                                         fromView:textField];
     
     CGFloat textfieldTopInset = textField.autoCompleteTableView.contentInset.top;
-    CGFloat converted_originY = textFieldFrameInContainerView.origin.y + textfieldTopInset;
+    CGFloat converted_originY = textFieldFrameInContainerView.origin.y + textfieldTopInset + textField.frame.size.height;
     
 #else
     CGRect newTableViewFrame = [self autoCompleteTableViewFrameForTextField:textField];
